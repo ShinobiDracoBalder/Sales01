@@ -9,82 +9,85 @@
 <div>
     <h4>Product</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+    <div class="panel panel-danger">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Remarks)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Remarks)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IsAvailable)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageMimeType)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.IsAvailable)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImageMimeType)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PublishOn)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagenProduct)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.PublishOn)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImagenProduct)
-        </dd>
+                    </dl>
+                </div>
+                <div class="col-sm-8">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+                        <dd>
+                            @if (Model.ImagenProduct != null)
+                            {
+                                <div style="float:left;margin-right:20px">
+                                    <img src="data:image;base64,@System.Convert.ToBase64String(Model.ImagenProduct)" class="img-responsive" style="width:250px; height:250px; max-width: 100%; height: auto;">
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <img src="@Url.Content(Model.ImagePath)" alt="Image" style="width:150px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Logos/avatar_user.png" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-secondary" })
+            </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsAvailable)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsAvailable)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PublishOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PublishOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BarCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BarCode)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

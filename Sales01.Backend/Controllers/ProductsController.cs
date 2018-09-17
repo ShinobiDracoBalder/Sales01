@@ -11,7 +11,10 @@
     using System.Web.Mvc;
     using Sales01.Backend.Models;
     using Sales01.Domain.Models;
+    using Sales01.Common.Models;
+    using Sales01.Backend.Helpers;
 
+    [Authorize(Roles = RolesHelper.PowerUser)]
     public class ProductsController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
@@ -48,16 +51,84 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProductId,Description,Remarks,ImagePath,ImageMimeType,ImagenProduct,Price,IsAvailable,PublishOn,BarCode")] Product product)
+        public async Task<ActionResult> Create(ProductView view)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var product = this.ToView(view);
+
+                using (var transaction = db.Database.BeginTransaction())
+                {
+
+                    db.Products.Add(product);
+                    try
+                    {
+                        await db.SaveChangesAsync();
+
+                        view.ProductId = product.ProductId;
+
+                        var pic = string.Empty;
+                        var folder = "~/Content/Products";
+
+                        if (view.LifeLogo != null)
+                        {
+                            pic = FilesHelper.UploadPhoto(view.LifeLogo, folder, string.Format("{0}", product.BarCode), string.Format("{0}", product.ProductId));
+
+                            product.ImageMimeType = view.LifeLogo.ContentType;
+                            int length = view.LifeLogo.ContentLength;
+                            byte[] buffer = new byte[length];
+                            view.LifeLogo.InputStream.Read(buffer, 0, length);
+                            product.ImagenProduct = buffer;
+                        }
+
+                        if (!string.IsNullOrEmpty(pic))
+                        {
+                            product.ImagePath = pic;
+                            db.Entry(product).State = EntityState.Modified;
+                            await db.SaveChangesAsync();
+                        }
+
+
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        transaction.Rollback();
+                        if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                        {
+                            ModelState.AddModelError(string.Empty, "There are a record with the same value");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+
+                            string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                            message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                            ModelState.AddModelError(string.Empty, message);
+                        }
+                    }
+                }
             }
 
-            return View(product);
+            return View(view);
+        }
+
+        private Product ToView(ProductView view)
+        {
+            return new Product
+            {
+                Description = view.Description,
+                BarCode = view.BarCode,
+                Price = view.Price,
+                Remarks = view.Remarks,
+                IsAvailable = view.IsAvailable,
+                PublishOn = view.PublishOn,
+            };
         }
 
         // GET: Products/Edit/5
@@ -72,23 +143,101 @@
             {
                 return HttpNotFound();
             }
-            return View(product);
+            var ViewProduct = this.ToProduct(product);
+
+            return View(ViewProduct);
         }
 
+        private ProductView ToProduct(Product product)
+        {
+            return new ProductView
+            {
+                BarCode = product.BarCode,
+                Description = product.Description,
+                ImagePath = product.ImagePath,
+                ImageMimeType = product.ImageMimeType,
+                ImagenProduct = product.ImagenProduct,
+                Price = product.Price,
+                Remarks = product.Remarks,
+                ProductId = product.ProductId,
+                IsAvailable = product.IsAvailable,
+                PublishOn = product.PublishOn,
+            };
+        }
         // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductId,Description,Remarks,ImagePath,ImageMimeType,ImagenProduct,Price,IsAvailable,PublishOn,BarCode")] Product product)
+        public async Task<ActionResult> Edit(ProductView view)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var product = this.ToProductView(view);
+
+                var pic = view.ImagePath;
+                var folder = "~/Content/Products";
+
+
+                if (view.LifeLogo != null)
+                {
+                    pic = FilesHelper.UploadPhoto(view.LifeLogo, folder, string.Format("{0}", product.BarCode), string.Format("{0}", product.ProductId));
+
+                    view.ImageMimeType = view.LifeLogo.ContentType;
+                    int length = view.LifeLogo.ContentLength;
+                    byte[] buffer = new byte[length];
+                    view.LifeLogo.InputStream.Read(buffer, 0, length);
+                    view.ImagenProduct = buffer;
+                    product.ImagenProduct = buffer;
+                }
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    db.Entry(product).State = EntityState.Modified;
+                    try
+                    {
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                        {
+                            ModelState.AddModelError(string.Empty, "There are a record with the same value");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+
+                            string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                            message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                            ModelState.AddModelError(string.Empty, message);
+                        }
+                    }
+                }
             }
-            return View(product);
+            return View(view);
+        }
+
+        private Product ToProductView(ProductView view)
+        {
+            return new Product
+            {
+                BarCode = view.BarCode,
+                Description = view.Description,
+                ImagePath = view.ImagePath,
+                ImageMimeType = view.ImageMimeType,
+                ImagenProduct = view.ImagenProduct,
+                Price = view.Price,
+                Remarks = view.Remarks,
+                ProductId = view.ProductId,
+                IsAvailable = view.IsAvailable,
+                PublishOn = view.PublishOn,
+            };
         }
 
         // GET: Products/Delete/5
@@ -103,7 +252,39 @@
             {
                 return HttpNotFound();
             }
-            return View(product);
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                db.Products.Remove(product);
+                try
+                {
+                    await db.SaveChangesAsync();
+                    transaction.Commit();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+
+                    transaction.Rollback();
+                    if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                    {
+                        ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+
+                        string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                        message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                        message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                        message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                        ModelState.AddModelError(string.Empty, message);
+
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
         }
 
         // POST: Products/Delete/5

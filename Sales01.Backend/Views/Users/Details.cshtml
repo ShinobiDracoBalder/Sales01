@@ -9,106 +9,113 @@
 <div>
     <h4>User</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserType.Description)
-        </dt>
+    <div class="panel panel-danger">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UserType.Description)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserType.Description)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.UserType.Description)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.FirstName)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.LastName)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.UserName)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NickName)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.NickName)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NickName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.NickName)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Telephone)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Telephone)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Telephone)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cellphone)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Cellphone)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Cellphone)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Cellphone)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PostalCode)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageMimeType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageMimeType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagenUser)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagenUser)
-        </dd>
-
-    </dl>
+                        <dd>
+                            @Html.DisplayFor(model => model.PostalCode)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-sm-8">
+                    <dl class="dl-horizontal">
+                        <dd>
+                            @if (Model.ImagenUser != null)
+                            {
+                                <div style="float:left;margin-right:20px">
+                                    <img src="data:image;base64,@System.Convert.ToBase64String(Model.ImagenUser)" class="img-responsive" style="width:350px; height:350px; max-width: 100%; height: auto;">
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <img src="@Url.Content(Model.ImagePath)" alt="Image" style="width:150px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Logos/avatar_user.png" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-secondary" })
+            </p>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
