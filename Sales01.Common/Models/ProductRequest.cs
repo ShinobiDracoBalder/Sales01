@@ -28,6 +28,8 @@
 
         public byte[] ImageArray { get; set; }
 
+        public decimal Quantity { get; set; }
+
         public string ImageFullPath
         {
             get
@@ -37,12 +39,16 @@
                     return "noproduct";
                 }
 
-                return $"https://salesapiservices.azurewebsites.net/{this.ImagePath.Substring(1)}";
+                return $"http://192.168.0.3:8085/{this.ImagePath.Substring(1)}";
             }
 
         }
 
         public string BarCode { get; set; }
+
+        public string Characteristics { get; set; }
+
+        public string Ingredients { get; set; }
 
         public override string ToString()
         {

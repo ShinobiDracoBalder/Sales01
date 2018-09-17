@@ -26,6 +26,6 @@
 
         public byte[] ImagenUser { get; set; }
 
-        public int UserId { get; set; }
+        public int UserRequestId { get; set; }
     }
 }

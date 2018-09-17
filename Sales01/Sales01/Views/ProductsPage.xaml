@@ -35,19 +35,23 @@
                                     VerticalOptions="Center">
                                     <Label
                                     FontAttributes="Bold"
-                                    Grid.Column="0"
-                                    Text="{Binding Description}"/>
-                                    <Label
-                                        Text="{Binding Remarks}">
-                                    </Label>
-                                </StackLayout>
-                                <Label
                                     Grid.Column="2"
+                                    Text="{Binding Description}"/>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Label
+                                     FontAttributes="Bold"
+                                     Grid.Column="3"
+                                     Text="{Binding BarCode}">
+                                    </Label>
+                                    <Label
+                                     Grid.Column="4"
                                     HorizontalOptions="End"
                                     Text="{Binding price, StringFormat='{0:C2}'}"
                                     VerticalOptions="Center"/>
+                                </StackLayout>
                                 <Image
-                                    Grid.Column="3"
+                                    Grid.Column="5"
                                     Source="ic_chevron_right"
                                     VerticalOptions="Center">
                                 </Image>
