@@ -5,6 +5,7 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Sales01.Common.Models;
+    using Sales01.Helpers;
     using Sales01.Services;
     using Xamarin.Forms;
 
@@ -75,7 +76,7 @@
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Languages.Error", connection.Message, "Languages.Accept");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
                 return;
             }
 
@@ -87,7 +88,7 @@
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Languages.Error", response.Message, "Languages.Accept");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
                 return;
             }
 

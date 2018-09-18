@@ -39,7 +39,7 @@
                     return "noproduct";
                 }
 
-                return $"http://192.168.0.3:8085/{this.ImagePath.Substring(1)}";
+                return $"http://192.168.0.3:8085/BackEnd/{this.ImagePath.Substring(1)}";
             }
 
         }

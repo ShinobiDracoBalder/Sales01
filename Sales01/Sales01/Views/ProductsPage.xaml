@@ -2,9 +2,10 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:Sales01.Helpers"
     x:Class="Sales01.Views.ProductsPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="Product">
+    Title="{i18n:Translate Products}">
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Products}"
@@ -38,16 +39,22 @@
                                     Grid.Column="2"
                                     Text="{Binding Description}"/>
                                 </StackLayout>
-                                <StackLayout>
+                                <StackLayout
+                                     Grid.Column="2"
+                                    VerticalOptions="Center">
                                     <Label
                                      FontAttributes="Bold"
-                                     Grid.Column="3"
+                                     Grid.Column="2"
                                      Text="{Binding BarCode}">
                                     </Label>
+                                </StackLayout>
+                                <StackLayout
+                                     Grid.Column="3"
+                                    VerticalOptions="Center">
                                     <Label
-                                     Grid.Column="4"
+                                     Grid.Column="1"
                                     HorizontalOptions="End"
-                                    Text="{Binding price, StringFormat='{0:C2}'}"
+                                    Text="{Binding Price, StringFormat='{0:C2}'}"
                                     VerticalOptions="Center"/>
                                 </StackLayout>
                                 <Image

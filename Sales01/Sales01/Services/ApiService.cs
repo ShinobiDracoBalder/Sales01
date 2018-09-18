@@ -7,7 +7,8 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
-    using Sales01.Common.Models;
+    using Common.Models;
+    using Helpers;
 
     public class ApiService
     {
@@ -18,7 +19,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Languages.TurnOnInternet",
+                    Message = Languages.TurnOnInternet,
                 };
             }
 
@@ -28,7 +29,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Languages.NoInternet",
+                    Message = Languages.NoInternet,
                 };
             }
 
