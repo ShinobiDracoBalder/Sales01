@@ -22,7 +22,7 @@
         // GET: Products
         public async Task<ActionResult> Index()
         {
-            return View(await db.Products.ToListAsync());
+            return View(await this.db.Products.OrderBy(p => p.BarCode).ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -32,7 +32,7 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
+            Product product = await this.db.Products.FindAsync(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -57,13 +57,13 @@
             {
                 var product = this.ToView(view);
 
-                using (var transaction = db.Database.BeginTransaction())
+                using (var transaction = this.db.Database.BeginTransaction())
                 {
 
-                    db.Products.Add(product);
+                    this.db.Products.Add(product);
                     try
                     {
-                        await db.SaveChangesAsync();
+                        await this.db.SaveChangesAsync();
 
                         view.ProductId = product.ProductId;
 
@@ -84,8 +84,8 @@
                         if (!string.IsNullOrEmpty(pic))
                         {
                             product.ImagePath = pic;
-                            db.Entry(product).State = EntityState.Modified;
-                            await db.SaveChangesAsync();
+                            this.db.Entry(product).State = EntityState.Modified;
+                            await this.db.SaveChangesAsync();
                         }
 
 
@@ -138,7 +138,7 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
+            Product product = await this.db.Products.FindAsync(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -190,12 +190,12 @@
                     view.ImagenProduct = buffer;
                     product.ImagenProduct = buffer;
                 }
-                using (var transaction = db.Database.BeginTransaction())
+                using (var transaction = this.db.Database.BeginTransaction())
                 {
-                    db.Entry(product).State = EntityState.Modified;
+                    this.db.Entry(product).State = EntityState.Modified;
                     try
                     {
-                        await db.SaveChangesAsync();
+                        await this.db.SaveChangesAsync();
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
@@ -247,17 +247,17 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
+            Product product = await this.db.Products.FindAsync(id);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            using (var transaction = db.Database.BeginTransaction())
+            using (var transaction = this.db.Database.BeginTransaction())
             {
-                db.Products.Remove(product);
+                this.db.Products.Remove(product);
                 try
                 {
-                    await db.SaveChangesAsync();
+                    await this.db.SaveChangesAsync();
                     transaction.Commit();
                     return RedirectToAction("Index");
                 }
@@ -292,9 +292,9 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Product product = await db.Products.FindAsync(id);
-            db.Products.Remove(product);
-            await db.SaveChangesAsync();
+            Product product = await this.db.Products.FindAsync(id);
+            this.db.Products.Remove(product);
+            await this.db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -302,7 +302,7 @@
         {
             if (disposing)
             {
-                db.Dispose();
+                this.db.Dispose();
             }
             base.Dispose(disposing);
         }

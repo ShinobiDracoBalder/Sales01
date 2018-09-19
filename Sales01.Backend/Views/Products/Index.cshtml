@@ -7,7 +7,7 @@
 <h2>Product</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-primary btn-sm" })
 </p>
 <table id="example" class="display nowrap" style="width:100%">
     <thead>
@@ -62,7 +62,7 @@
                 @if (item.ImagenProduct != null)
                 {
                     <div style="float:left;margin-right:20px">
-                        <img src="data:image;base64,@System.Convert.ToBase64String(item.ImagenProduct)" class="img-responsive" style="width:100px; height:100px; max-width: 100%; height: auto;">
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.ImagenProduct)" class="img-responsive" style="width:150px; height:150px; max-width: 100%; height: auto;">               
                     </div>
                 }
                 else if (!string.IsNullOrEmpty(item.ImagePath))
@@ -75,9 +75,9 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-warning" })
-                @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-secondary" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-danger", onclick = "return confirm('¿ Are you sure to delete this Products?');" })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-warning btn-sm" })
+                @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-outline-secondary btn-sm" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('¿ Are you sure to delete this Products?');" })
             </td>
         </tr>
         }

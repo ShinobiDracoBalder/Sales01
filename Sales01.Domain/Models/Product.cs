@@ -11,6 +11,7 @@
 
         [Required]
         [StringLength(50)]
+        [Index("ProductDescriptionIndex", IsUnique = true)]
         public string Description { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -32,6 +33,7 @@
 
         [Display(Name = "Publish On")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PublishOn { get; set; }
 
         [NotMapped]

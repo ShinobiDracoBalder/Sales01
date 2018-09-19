@@ -65,9 +65,12 @@
                         <dd>
                             @if (Model.ImagenProduct != null)
                             {
-                                <div style="float:left;margin-right:20px">
-                                    <img src="data:image;base64,@System.Convert.ToBase64String(Model.ImagenProduct)" class="img-responsive" style="width:250px; height:250px; max-width: 100%; height: auto;">
-                                </div>
+                                <figure class="figure">
+                                    <div style="float:left;margin-right:20px">
+                                        <img src="data:image;base64,@System.Convert.ToBase64String(Model.ImagenProduct)" class="img-responsive figure-img img-fluid rounded" style="width:100px; height:100px; max-width: 100%; height: auto;">
+                                        <figcaption class="figure-caption">@Model.BarCode</figcaption>
+                                    </div>
+                                </figure>
                             }
                             else if (!string.IsNullOrEmpty(Model.ImagePath))
                             {
