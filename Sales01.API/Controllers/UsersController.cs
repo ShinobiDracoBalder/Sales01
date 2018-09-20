@@ -156,7 +156,56 @@
             return Ok("ok");
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("GetUser")]
+        public IHttpActionResult GetUser(JObject form)
+        {
+            try
+            {
+                var email = string.Empty;
+                dynamic jsonObject = form;
 
+                try
+                {
+                    email = jsonObject.Email.Value;
+                }
+                catch
+                {
+                    return BadRequest("Incorrect call.");
+                }
+
+                var user = UsersHelper.GetUserASP(email);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("LoginFacebook")]
+        public IHttpActionResult LoginFacebook(FacebookResponse profile)
+        {
+            var user = UsersHelper.GetUserASP(profile.Id);
+            if (user != null)
+            {
+                return Ok(true);
+            }
+
+            var userRequest = new UserRequest
+            {
+                UserName = profile.Id,
+                FirstName = profile.FirstName,
+                ImagePath = profile.Picture.Data.Url,
+                LastName = profile.LastName,
+                Password = profile.Id,
+            };
+
+            var answer = UsersHelper.CreateUserASP(userRequest);
+            return Ok(answer);
+        }
         // GET: api/Users
         public IQueryable<User> GetUsers()
         {

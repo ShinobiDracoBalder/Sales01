@@ -37,7 +37,8 @@
                                     <Label
                                     FontAttributes="Bold"
                                     Grid.Column="2"
-                                    Text="{Binding Description}"/>
+                                    Text="{Binding Description}"
+                                    VerticalOptions="Center"/>
                                 </StackLayout>
                                 <StackLayout
                                      Grid.Column="2"
@@ -45,14 +46,15 @@
                                     <Label
                                      FontAttributes="Bold"
                                      Grid.Column="2"
-                                     Text="{Binding BarCode}">
+                                     Text="{Binding BarCode}"
+                                     VerticalOptions="Center">
                                     </Label>
                                 </StackLayout>
                                 <StackLayout
                                      Grid.Column="3"
                                     VerticalOptions="Center">
                                     <Label
-                                     Grid.Column="1"
+                                     Grid.Column="3"
                                     HorizontalOptions="End"
                                     Text="{Binding Price, StringFormat='{0:C2}'}"
                                     VerticalOptions="Center"/>

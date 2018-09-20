@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\FacebookResponse.cs" />
     <Compile Include="Models\ProductRequest.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\RolesHelper.cs" />
