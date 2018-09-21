@@ -6,6 +6,9 @@
     x:Class="Sales01.Views.ProductsPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     Title="{i18n:Translate Products}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddProductCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Products}"
@@ -36,9 +39,12 @@
                                     VerticalOptions="Center">
                                     <Label
                                     FontAttributes="Bold"
-                                    Grid.Column="2"
-                                    Text="{Binding Description}"
-                                    VerticalOptions="Center"/>
+                                    Text="{Binding Description}"/>
+                                    <Label
+                                     FontAttributes="Bold"
+                                     Text="{Binding BarCode}"
+                                     VerticalOptions="Center">
+                                    </Label>
                                 </StackLayout>
                                 <StackLayout
                                      Grid.Column="2"

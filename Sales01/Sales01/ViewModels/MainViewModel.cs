@@ -1,11 +1,17 @@
 ﻿namespace Sales01.ViewModels
 {
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using Sales01.Views;
+    using Xamarin.Forms;
+
+
     public class MainViewModel
     {
         #region View Models
         public ProductsViewModel Products { get; set; }
 
-        //public AddProductViewModel AddProduct { get; set; }
+        public AddProductViewModel AddProduct { get; set; }
 
         //public EditProductViewModel EditProduct { get; set; }
         #endregion
@@ -29,6 +35,22 @@
             }
 
             return instance;
+        }
+        #endregion
+
+        #region Commands
+        public ICommand AddProductCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToAddProduct);
+            }
+        }
+
+        private async void GoToAddProduct()
+        {
+            this.AddProduct = new AddProductViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
         }
         #endregion
     }
