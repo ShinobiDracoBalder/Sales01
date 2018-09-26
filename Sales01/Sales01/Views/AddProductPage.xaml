@@ -5,6 +5,7 @@
     xmlns:i18n="clr-namespace:Sales01.Helpers"
     x:Class="Sales01.Views.AddProductPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    BackgroundColor="{StaticResource AccentColor1}"
     Title="{i18n:Translate AddProduct}">
     <ContentPage.Content>
         <ScrollView
