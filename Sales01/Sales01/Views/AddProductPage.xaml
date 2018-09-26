@@ -6,7 +6,7 @@
     x:Class="Sales01.Views.AddProductPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     BackgroundColor="{StaticResource AccentColor1}"
-    Title="{i18n:Translate AddProduct}">
+    Title="{i18n:Translate AddProduct}"> 
     <ContentPage.Content>
         <ScrollView
             BindingContext="{Binding AddProduct}">
@@ -76,7 +76,7 @@
                     VerticalOptions="CenterAndExpand">
                 </ActivityIndicator>
                 <Button
-                    BackgroundColor="Navy"
+                    BackgroundColor="{StaticResource BackgroundColor}"
                     BorderRadius="23"
                     Command="{Binding SaveCommand}"
                     HeightRequest="46"
