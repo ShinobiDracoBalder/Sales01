@@ -1,15 +1,17 @@
 ﻿namespace Sales01.ViewModels
 {
+    using System;
+    using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
+    using Sales01.Domain.Models;
     using Sales01.Helpers;
     using Sales01.Services;
-    using System.Windows.Input;
     using Xamarin.Forms;
 
     public class AddProductViewModel : BaseViewModel
     {
         #region Attributes
-        //private MediaFile file;
+        private MediaFile file;
 
         private ImageSource imageSource;
 
@@ -26,6 +28,14 @@
         public string Price { get; set; }
 
         public string Remarks { get; set; }
+
+        public string Quantity { get; set; }
+
+        public string BarCode { get; set; }
+
+        public string Characteristics { get; set; }
+
+        public string Ingredients { get; set; }
 
         public bool IsRunning
         {
@@ -145,6 +155,50 @@
                     Languages.Accept);
                 return;
             }
+            if (string.IsNullOrEmpty(this.Quantity))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.QuantityError,
+                    Languages.Accept);
+                return;
+            }
+            var quantity = decimal.Parse(this.Quantity);
+
+            if (quantity < 0)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.QuantityError,
+                    Languages.Accept);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.BarCode))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.BarCodeError,
+                    Languages.Accept);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.Characteristics))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.CharacteristicsError,
+                    Languages.Accept);
+                return;
+            }
+            if (string.IsNullOrEmpty(this.Ingredients))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.IngredientsError,
+                    Languages.Accept);
+                return;
+            }
 
             this.IsRunning = true;
             this.IsEnabled = false;
@@ -173,6 +227,10 @@
                 Price = price,
                 Remarks = this.Remarks,
                 ImageArray = imageArray,
+                BarCode = this.BarCode,
+                Quantity = quantity,
+                Characteristics = this.Characteristics,
+                Ingredients = this.Ingredients, 
             };
 
             var url = Application.Current.Resources["UrlAPI"].ToString();

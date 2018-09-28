@@ -303,4 +303,22 @@
   <data name="RegisterConfirmation" xml:space="preserve">
     <value>El usuario fue creado con éxito. Ahora puede ingresar con el correo electrónico y la contraseña asignada.</value>
   </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="QuantityPlaceholder" xml:space="preserve">
+    <value>¡Ingrese su cantidad!</value>
+  </data>
+  <data name="BarCode" xml:space="preserve">
+    <value>Código de barras</value>
+  </data>
+  <data name="BarCodePlaceholder" xml:space="preserve">
+    <value>¡Introduzca su código de barras!</value>
+  </data>
+  <data name="Characteristics" xml:space="preserve">
+    <value>Características</value>
+  </data>
+  <data name="Ingredients" xml:space="preserve">
+    <value>Ingredientes</value>
+  </data>
 </root>

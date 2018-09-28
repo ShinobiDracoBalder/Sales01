@@ -323,5 +323,56 @@
         {
             get { return Resource.RegisterConfirmation; }
         }
+
+        public static string Quantity
+        {
+            get { return Resource.Quantity; }
+        }
+
+        public static string QuantityPlaceholder
+        {
+            get { return Resource.QuantityPlaceholder; }
+        }
+
+        public static string BarCode
+        {
+            get { return Resource.BarCode; }
+        }
+
+
+        public static string BarCodePlaceholder
+        {
+            get { return Resource.BarCodePlaceholder; }
+        }
+
+        public static string Characteristics
+        {
+            get { return Resource.Characteristics; }
+        }
+
+        public static string Ingredients
+        {
+            get { return Resource.Ingredients; }
+        }
+
+        public static string QuantityError
+        {
+            get { return Resource.QuantityError; }
+        }
+
+        public static string BarCodeError
+        {
+            get { return Resource.BarCodeError; }
+        }
+
+        public static string CharacteristicsError
+        {
+            get { return Resource.CharacteristicsError; }
+        }
+
+        public static string IngredientsError
+        {
+            get { return Resource.IngredientsError; }
+        }
     }
 }

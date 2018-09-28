@@ -61,13 +61,62 @@
                     <Label
                         Grid.Column="0"
                         Grid.Row="2"
+                        Text="{i18n:Translate Quantity}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Keyboard="Numeric"
+                        Text="{Binding Quantity}"
+                        Placeholder="{i18n:Translate QuantityPlaceholder}">
+                    </Entry>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        Text="{i18n:Translate BarCode}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        Text="{Binding BarCode}"
+                        Placeholder="{i18n:Translate BarCodePlaceholder}">
+                    </Entry>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="4"
                         Text="{i18n:Translate Remarks}"
                         VerticalOptions="Center">
                     </Label>
                     <Editor
                         Grid.Column="1"
-                        Grid.Row="2"
+                        Grid.Row="4"
                         Text="{Binding Remarks}"
+                        VerticalOptions="FillAndExpand">
+                    </Editor>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="5"
+                        Text="{i18n:Translate Characteristics}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Editor
+                        Grid.Column="1"
+                        Grid.Row="5"
+                        Text="{Binding Characteristics}"
+                        VerticalOptions="FillAndExpand">
+                    </Editor>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="6"
+                        Text="{i18n:Translate Ingredients}"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Editor
+                        Grid.Column="1"
+                        Grid.Row="6"
+                        Text="{Binding Ingredients}"
                         VerticalOptions="FillAndExpand">
                     </Editor>
                 </Grid>

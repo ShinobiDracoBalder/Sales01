@@ -106,6 +106,33 @@ namespace Sales01.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BarCode.
+        /// </summary>
+        public static string BarCode {
+            get {
+                return ResourceManager.GetString("BarCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter a BarCode.
+        /// </summary>
+        public static string BarCodeError {
+            get {
+                return ResourceManager.GetString("BarCodeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your BarCode.
+        /// </summary>
+        public static string BarCodePlaceholder {
+            get {
+                return ResourceManager.GetString("BarCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -120,6 +147,24 @@ namespace Sales01.Resources {
         public static string ChangeImage {
             get {
                 return ResourceManager.GetString("ChangeImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characteristics.
+        /// </summary>
+        public static string Characteristics {
+            get {
+                return ResourceManager.GetString("Characteristics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter a Characteristics.
+        /// </summary>
+        public static string CharacteristicsError {
+            get {
+                return ResourceManager.GetString("CharacteristicsError", resourceCulture);
             }
         }
         
@@ -300,6 +345,24 @@ namespace Sales01.Resources {
         public static string ImageSource {
             get {
                 return ResourceManager.GetString("ImageSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ingredients.
+        /// </summary>
+        public static string Ingredients {
+            get {
+                return ResourceManager.GetString("Ingredients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter a Ingredients.
+        /// </summary>
+        public static string IngredientsError {
+            get {
+                return ResourceManager.GetString("IngredientsError", resourceCulture);
             }
         }
         
@@ -525,6 +588,33 @@ namespace Sales01.Resources {
         public static string Products {
             get {
                 return ResourceManager.GetString("Products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter a Quantity.
+        /// </summary>
+        public static string QuantityError {
+            get {
+                return ResourceManager.GetString("QuantityError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your Quantity.
+        /// </summary>
+        public static string QuantityPlaceholder {
+            get {
+                return ResourceManager.GetString("QuantityPlaceholder", resourceCulture);
             }
         }
         
