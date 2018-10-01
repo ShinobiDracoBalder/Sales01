@@ -24,6 +24,15 @@
         #endregion
 
         #region Properties
+        public string Filter
+        {
+            get { return this.filter; }
+            set
+            {
+                this.filter = value;
+                this.RefreshList();
+            }
+        }
         public List<Product> MyProducts { get; set; }
 
         public ObservableCollection<ProductItemViewModel> Products
