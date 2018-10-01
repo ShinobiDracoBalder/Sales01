@@ -23,7 +23,7 @@
         // GET: api/Products
         public IQueryable<Product> GetProducts()
         {
-            return db.Products;
+            return db.Products.OrderBy(p => p.Description);
         }
 
         // GET: api/Products/5

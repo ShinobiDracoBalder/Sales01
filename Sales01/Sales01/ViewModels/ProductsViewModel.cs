@@ -5,6 +5,7 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Sales01.Common.Models;
+    using Sales01.Domain.Models;
     using Sales01.Helpers;
     using Sales01.Services;
     using Xamarin.Forms;
@@ -16,26 +17,26 @@
 
         private bool isRefreshing;
 
-        private ObservableCollection<ProductRequest> products;
+        //private ObservableCollection<ProductRequest> products;
 
-        //private ObservableCollection<ProductItemViewModel> products;
+        private ObservableCollection<ProductItemViewModel> products;
         private string filter;
         #endregion
 
         #region Properties
-        //public List<Product> MyProducts { get; set; }
+        public List<Product> MyProducts { get; set; }
 
-        //public ObservableCollection<ProductItemViewModel> Products
-        //{
-        //    get { return this.products; }
-        //    set { this.SetValue(ref this.products, value); }
-        //}
-
-        public ObservableCollection<ProductRequest> Products
+        public ObservableCollection<ProductItemViewModel> Products
         {
             get { return this.products; }
             set { this.SetValue(ref this.products, value); }
         }
+
+        //public ObservableCollection<ProductRequest> Products
+        //{
+        //    get { return this.products; }
+        //    set { this.SetValue(ref this.products, value); }
+        //}
 
         public bool IsRefreshing
         {
@@ -68,6 +69,43 @@
         #endregion
 
         #region Methods
+        public void RefreshList()
+        {
+            if (string.IsNullOrEmpty(this.Filter))
+            {
+                var myListProductItemViewModel = MyProducts.Select(p => new ProductItemViewModel
+                {
+                    Description = p.Description,
+                    ImageArray = p.ImageArray,
+                    ImagePath = p.ImagePath,
+                    IsAvailable = p.IsAvailable,
+                    Price = p.Price,
+                    ProductId = p.ProductId,
+                    PublishOn = p.PublishOn,
+                    Remarks = p.Remarks,
+                });
+
+                this.Products = new ObservableCollection<ProductItemViewModel>(
+                    myListProductItemViewModel.OrderBy(p => p.Description));
+            }
+            else
+            {
+                var myListProductItemViewModel = MyProducts.Select(p => new ProductItemViewModel
+                {
+                    Description = p.Description,
+                    ImageArray = p.ImageArray,
+                    ImagePath = p.ImagePath,
+                    IsAvailable = p.IsAvailable,
+                    Price = p.Price,
+                    ProductId = p.ProductId,
+                    PublishOn = p.PublishOn,
+                    Remarks = p.Remarks,
+                }).Where(p => p.Description.ToLower().Contains(this.Filter.ToLower()));
+
+                this.Products = new ObservableCollection<ProductItemViewModel>(
+                    myListProductItemViewModel.OrderBy(p => p.Description));
+            }
+        }
         private async void LoadProducts()
         {
             this.IsRefreshing = true;
