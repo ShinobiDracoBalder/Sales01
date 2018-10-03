@@ -98,6 +98,7 @@
                 if (response)
                 {
                     product.ImagePath = fullPath;
+                    product.ImagenProduct = product.ImageArray;
                 }
             }
 

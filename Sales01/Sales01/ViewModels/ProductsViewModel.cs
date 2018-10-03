@@ -1,5 +1,6 @@
 ﻿namespace Sales01.ViewModels
 {
+    using System.Linq;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
@@ -140,7 +141,21 @@
             }
 
             var list = (List<ProductRequest>)response.Result;
-            this.Products = new ObservableCollection<ProductRequest>(list);
+            var myList = list.Select(p => new ProductItemViewModel {
+                Description = p.Description,
+                ImageArray = p.ImageArray,
+                ImagePath = p.ImagePath,
+                IsAvailable = p.IsAvailable,
+                Price = p.Price,
+                BarCode = p.BarCode,
+                Quantity = p.Quantity,
+                ProductId = p.ProductId,
+                PublishOn = p.PublishOn,
+                Remarks = p.Remarks,
+            }).Where(p => p.Description.ToLower().Contains(this.Filter.ToLower()));
+
+
+            this.Products = new ObservableCollection<ProductItemViewModel>(myList);
 
             this.IsRefreshing = false;
         }
