@@ -6,6 +6,7 @@
     using Sales01.Common.Models;
     using Sales01.Helpers;
     using Sales01.Services;
+    using Sales01.Views;
     using Xamarin.Forms;
 
     public class ProductItemViewModel : ProductRequest
@@ -33,7 +34,8 @@
         private async void EditProduct()
         {
             MainViewModel.GetInstance().EditProduct = new EditProductViewModel(this);
-            await App.Navigator.PushAsync(new EditProductPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new EditProductPage());
+            //await App.Navigator.PushAsync(new EditProductPage());
         }
 
         public ICommand DeleteProductCommand

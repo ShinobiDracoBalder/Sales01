@@ -18,8 +18,6 @@
 
         private bool isRefreshing;
 
-        //private ObservableCollection<ProductRequest> products;
-
         private ObservableCollection<ProductItemViewModel> products;
         private string filter;
         #endregion
@@ -34,19 +32,13 @@
                 this.RefreshList();
             }
         }
-        public List<Product> MyProducts { get; set; }
+        public List<ProductRequest> MyProducts { get; set; }
 
         public ObservableCollection<ProductItemViewModel> Products
         {
             get { return this.products; }
             set { this.SetValue(ref this.products, value); }
         }
-
-        //public ObservableCollection<ProductRequest> Products
-        //{
-        //    get { return this.products; }
-        //    set { this.SetValue(ref this.products, value); }
-        //}
 
         public bool IsRefreshing
         {
@@ -140,23 +132,10 @@
                 return;
             }
 
-            var list = (List<ProductRequest>)response.Result;
-            var myList = list.Select(p => new ProductItemViewModel {
-                Description = p.Description,
-                ImageArray = p.ImageArray,
-                ImagePath = p.ImagePath,
-                IsAvailable = p.IsAvailable,
-                Price = p.Price,
-                BarCode = p.BarCode,
-                Quantity = p.Quantity,
-                ProductId = p.ProductId,
-                PublishOn = p.PublishOn,
-                Remarks = p.Remarks,
-            }).Where(p => p.Description.ToLower().Contains(this.Filter.ToLower()));
+            this.MyProducts = (List<ProductRequest>)response.Result;
 
-
-            this.Products = new ObservableCollection<ProductItemViewModel>(myList);
-
+            this.RefreshList();
+           
             this.IsRefreshing = false;
         }
 

@@ -13,7 +13,7 @@
 
         public AddProductViewModel AddProduct { get; set; }
 
-        //public EditProductViewModel EditProduct { get; set; }
+        public EditProductViewModel EditProduct { get; set; }
         #endregion
 
         #region Constructors
