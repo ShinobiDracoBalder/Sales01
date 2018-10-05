@@ -70,7 +70,7 @@
                                     VerticalOptions="Center"/>
                                 </StackLayout>
                                 <Image
-                                    Grid.Column="5"
+                                    Grid.Column="4"
                                     Source="ic_chevron_right"
                                     VerticalOptions="Center">
                                 </Image>
