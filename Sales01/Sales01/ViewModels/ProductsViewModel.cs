@@ -92,7 +92,7 @@
             }
             else
             {
-                var myListProductItemViewModel = MyProducts.Select(p => new ProductItemViewModel
+                var myListProductItemViewModel = this.MyProducts.Select(p => new ProductItemViewModel
                 {
                     Description = p.Description,
                     ImageArray = p.ImageArray,
@@ -102,7 +102,7 @@
                     ProductId = p.ProductId,
                     PublishOn = p.PublishOn,
                     Remarks = p.Remarks,
-                }).Where(p => p.Description.ToLower().Contains(this.Filter.ToLower()));
+                }).Where(p => p.Description.ToLower().Contains(this.Filter.ToLower())).ToList();
 
                 this.Products = new ObservableCollection<ProductItemViewModel>(
                     myListProductItemViewModel.OrderBy(p => p.Description));
@@ -143,13 +143,13 @@
         #endregion
 
         #region Commands
-        //public ICommand SearchCommand
-        //{
-        //    get
-        //    {
-        //        return new RelayCommand(RefreshList);
-        //    }
-        //}
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return new RelayCommand(RefreshList);
+            }
+        }
 
         public ICommand RefreshCommand
         {
