@@ -3,6 +3,7 @@
     using GalaSoft.MvvmLight.Command;
     using Sales01.Helpers;
     using Sales01.Services;
+    using Sales01.Views;
     using System;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -108,6 +109,30 @@
                 return;
             }
 
+            if (string.IsNullOrEmpty(token.AccessToken))
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.SomethingWrong,
+                    Languages.Accept);
+                this.Password = string.Empty;
+                return;
+            }
+
+
+            Settings.TokenType = token.TokenType;
+            Settings.AccessToken = token.AccessToken;
+            Settings.IsRemembered = this.IsRemembered;
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+            this.Email = string.Empty;
+            this.Password = string.Empty;
+
+            MainViewModel.GetInstance().Products = new ProductsViewModel();
+            Application.Current.MainPage = new MasterPage();
         }
         #endregion
     }

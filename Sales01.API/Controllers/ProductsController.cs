@@ -21,6 +21,7 @@
         private DataContext db = new DataContext();
 
         // GET: api/Products
+        [Authorize]
         public IQueryable<Product> GetProducts()
         {
             return db.Products.OrderBy(p => p.Description);
