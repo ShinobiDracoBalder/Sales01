@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -7,16 +6,26 @@ namespace Sales01
 {
     using Views;
     using ViewModels;
+    using Sales01.Helpers;
     public partial class App : Application
     {
+        public static NavigationPage Navigator { get; internal set; }
+
         public App()
         {
             InitializeComponent();
+            if (Settings.IsRemembered && string.IsNullOrEmpty(Settings.AccessToken))
+            {
+                MainViewModel.GetInstance().Products = new ProductsViewModel();
 
-            MainViewModel.GetInstance().Login = new LoginViewModel();
+                MainPage = new  MasterPage();
+            }
+            else
+            {
+                MainViewModel.GetInstance().Login = new LoginViewModel();
 
-            MainPage = new LoginPage();
-            //MainPage = new NavigationPage ( new ProductsPage());
+                MainPage = new NavigationPage ( new LoginPage());
+            }
         }
 
         protected override void OnStart()
