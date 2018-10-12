@@ -2,15 +2,60 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:i18n="clr-namespace:Sales01.Helpers"
-    x:Class="Sales01.Views.MenuPage"
+    x:Class="Sales.Views.MenuPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="{i18n:Translate Menu}">
+    Title="{i18n:Translate Menu}"
+    BackgroundColor="Gray">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            Padding="5">
+            <controls:CircleImage  
+                Source="{Binding UserImageFullPath}"
+                Aspect="AspectFill"
+                WidthRequest="200"
+                HeightRequest="200">
+            </controls:CircleImage>
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="{Binding UserFullName}"
+                TextColor="White">
+            </Label>
+            <ListView
+                ItemsSource="{Binding Menu}"
+                HasUnevenRows="True"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GotoCommand}"/>
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Source="{Binding Icon}"
+                                    WidthRequest="50"
+                                    HeightRequest="50">
+                                </Image>
+                                <Label
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    TextColor="White"
+                                    Text="{Binding Title}">
+                                </Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

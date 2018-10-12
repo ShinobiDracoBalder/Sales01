@@ -1,7 +1,9 @@
 ﻿namespace Sales01.ViewModels
 {
+    using System.Collections.ObjectModel;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
+    using Sales01.Helpers;
     using Sales01.Views;
     using Xamarin.Forms;
 
@@ -16,13 +18,44 @@
         public EditProductViewModel EditProduct { get; set; }
 
         public LoginViewModel Login { get; set; }
+
+        public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         #endregion
 
         #region Constructors
         public MainViewModel()
         {
             instance = this;
+            this.LoadMenu();
             //this.Products = new ProductsViewModel();
+        }
+        #endregion
+
+        #region Methods
+        private void LoadMenu()
+        {
+            this.Menu = new ObservableCollection<MenuItemViewModel>();
+
+            this.Menu.Add(new MenuItemViewModel
+            {
+                Icon = "ic_info",
+                PageName = "AboutPage",
+                Title = Languages.About,
+            });
+
+            this.Menu.Add(new MenuItemViewModel
+            {
+                Icon = "ic_phonelink_setup",
+                PageName = "SetupPage",
+                Title = Languages.Setup,
+            });
+
+            this.Menu.Add(new MenuItemViewModel
+            {
+                Icon = "ic_exit_to_app",
+                PageName = "LoginPage",
+                Title = Languages.Exit,
+            });
         }
         #endregion
 
@@ -52,7 +85,7 @@
         private async void GoToAddProduct()
         {
             this.AddProduct = new AddProductViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
+            await App.Navigator.PushAsync(new AddProductPage());
         }
         #endregion
     }
