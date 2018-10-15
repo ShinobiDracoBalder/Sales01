@@ -1,5 +1,6 @@
 ﻿namespace Sales01.ViewModels
 {
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
@@ -12,13 +13,16 @@
     public class ProductItemViewModel : ProductRequest
     {
         #region Attibutes
+        private string filter;
         private ApiService apiService;
+        private DataService dataService;
         #endregion
 
         #region Constructors
         public ProductItemViewModel()
         {
             this.apiService = new ApiService();
+            this.dataService = new DataService();
         }
         #endregion
 

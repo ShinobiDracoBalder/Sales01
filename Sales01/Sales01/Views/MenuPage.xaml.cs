@@ -14,7 +14,7 @@ namespace Sales01.Views
 	{
 		public MenuPage ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 	}
 }

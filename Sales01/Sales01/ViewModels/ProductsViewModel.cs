@@ -10,11 +10,14 @@
     using Sales01.Helpers;
     using Sales01.Services;
     using Xamarin.Forms;
+    using System.Threading.Tasks;
 
     public class ProductsViewModel : BaseViewModel
     {
         #region Attributes
         private ApiService apiService;
+
+        private DataService dataService;
 
         private bool isRefreshing;
 
@@ -52,6 +55,7 @@
         {
             instance = this;
             this.apiService = new ApiService();
+            this.dataService = new DataService();
             this.LoadProducts();
         }
         #endregion
@@ -113,13 +117,44 @@
             this.IsRefreshing = true;
 
             var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
+            if (connection.IsSuccess)
             {
-                this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
-                return;
+                var answer = await this.LoadProductsFromAPI();
+
+                if (answer)
+                {
+                    this.SaveProductsToDB();
+                }
+                else
+                {
+                    await this.LoadProductsFromAPI();
+                }
             }
 
+            if (this.MyProducts == null || this.MyProducts.Count ==0)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.NoProductsMessage, Languages.Accept);
+                return;
+
+            }
+
+            this.RefreshList();
+           
+            this.IsRefreshing = false;
+        }
+        private async Task LoadProductsFromDB()
+        {
+            this.MyProducts = await this.dataService.GetAllProducts();
+        }
+
+        private async Task SaveProductsToDB()
+        {
+            await this.dataService.DeleteAllProducts();
+            this.dataService.Insert(this.MyProducts);
+        }
+        private async Task<bool> LoadProductsFromAPI()
+        {
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
@@ -127,18 +162,13 @@
             var response = await this.apiService.GetList<ProductRequest>(url, prefix, controller, Settings.TokenType, Settings.AccessToken);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
-                return;
+                return false;
             }
 
             this.MyProducts = (List<ProductRequest>)response.Result;
 
-            this.RefreshList();
-           
-            this.IsRefreshing = false;
+            return true;
         }
-
 
         #endregion
 
