@@ -47,6 +47,7 @@
     <Compile Include="Models\Claim.cs" />
     <Compile Include="Models\FacebookResponse.cs" />
     <Compile Include="Models\GetUserRequest.cs" />
+    <Compile Include="Models\MyUserASP.cs" />
     <Compile Include="Models\ProductRequest.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\RolesHelper.cs" />

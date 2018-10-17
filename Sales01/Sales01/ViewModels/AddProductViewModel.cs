@@ -5,10 +5,9 @@
     using GalaSoft.MvvmLight.Command;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
-    using Sales01.Common.Models;
-    using Sales01.Domain.Models;
-    using Sales01.Helpers;
-    using Sales01.Services;
+    using Common.Models;
+    using Helpers;
+    using Services;
     using Xamarin.Forms;
 
     public class AddProductViewModel : BaseViewModel
@@ -224,7 +223,7 @@
                 imageArray = FilesHelper.ReadFully(this.file.GetStream());
             }
 
-            var product = new Product
+            var product = new ProductRequest
             {
                 Description = this.Description,
                 Price = price,

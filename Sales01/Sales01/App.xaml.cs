@@ -7,6 +7,9 @@ namespace Sales01
     using Views;
     using ViewModels;
     using Sales01.Helpers;
+    using Newtonsoft.Json;
+    using Sales01.Common.Models;
+
     public partial class App : Application
     {
         public static NavigationPage Navigator { get; internal set; }
@@ -14,17 +17,23 @@ namespace Sales01
         public App()
         {
             InitializeComponent();
-            if (Settings.IsRemembered && string.IsNullOrEmpty(Settings.AccessToken))
-            {
-                MainViewModel.GetInstance().Products = new ProductsViewModel();
+            var mainViewModel = MainViewModel.GetInstance();
 
-                MainPage = new  MasterPage();
+            if (Settings.IsRemembered)
+            {
+
+                if (!string.IsNullOrEmpty(Settings.UserASP))
+                {
+                    mainViewModel.UserASP = JsonConvert.DeserializeObject<MyUserASP>(Settings.UserASP);
+                }
+
+                mainViewModel.Products = new ProductsViewModel();
+                this.MainPage = new MasterPage();
             }
             else
             {
-                MainViewModel.GetInstance().Login = new LoginViewModel();
-
-                MainPage = new NavigationPage ( new LoginPage());
+                mainViewModel.Login = new LoginViewModel();
+                this.MainPage = new NavigationPage(new LoginPage());
             }
         }
 

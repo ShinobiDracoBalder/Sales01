@@ -15,13 +15,13 @@
     <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Sales01.Common\Sales01.Common.csproj" />
-    <ProjectReference Include="..\..\Sales01.Domain\Sales01.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

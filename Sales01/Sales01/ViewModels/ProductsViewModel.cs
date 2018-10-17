@@ -6,7 +6,6 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Sales01.Common.Models;
-    using Sales01.Domain.Models;
     using Sales01.Helpers;
     using Sales01.Services;
     using Xamarin.Forms;

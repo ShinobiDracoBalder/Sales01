@@ -1,6 +1,8 @@
 ﻿namespace Sales01.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Newtonsoft.Json;
+    using Sales01.Common.Models;
     using Sales01.Helpers;
     using Sales01.Services;
     using Sales01.Views;
@@ -135,6 +137,18 @@
             Settings.TokenType = token.TokenType;
             Settings.AccessToken = token.AccessToken;
             Settings.IsRemembered = this.IsRemembered;
+
+
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlUsersController"].ToString();
+            var response = await this.apiService.GetUser(url, prefix, $"{controller}/GetUser", this.Email, token.TokenType, token.AccessToken);
+            if (response.IsSuccess)
+            {
+                var userASP = (MyUserASP)response.Result;
+                MainViewModel.GetInstance().UserASP = userASP;
+                Settings.UserASP = JsonConvert.SerializeObject(userASP);
+            }
+
 
             this.IsRunning = false;
             this.IsEnabled = true;

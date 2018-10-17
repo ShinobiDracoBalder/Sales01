@@ -377,7 +377,7 @@
                     };
                 }
 
-                var user = JsonConvert.DeserializeObject<UserASP>(answer);
+                var user = JsonConvert.DeserializeObject<MyUserASP>(answer);
                 return new Response
                 {
                     IsSuccess = true,
