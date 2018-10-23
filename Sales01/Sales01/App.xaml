@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- Locator video 50  -->
+            <!-- Locator video 52  -->
             <infra:InstanceLocator x:Key="Locator"/>
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">http://192.168.0.3:8085/API/</x:String>
@@ -21,6 +21,28 @@
             <Color x:Key="AccentColor2">#A68863</Color>
             <Color x:Key="BackgroundColor">#C1CED9</Color>
             <Color x:Key="BackgroundButtonColor">#C1CED9</Color>
+            <!-- Facebook -->
+            <x:String x:Key="FacebookAppID">349634052266200</x:String>
+            <x:String x:Key="FacebookAuthURL">https://www.facebook.com/dialog/oauth/</x:String>
+            <x:String x:Key="FacebookRedirectURL">https://www.facebook.com/connect/login_success.html</x:String>
+            <x:String x:Key="FacebookScope">email</x:String>
+
+            <!-- Instagram -->
+            <x:String x:Key="InstagramAppID">95e62f4c54f544018e5c982beaeffb62</x:String>
+            <x:String x:Key="InstagramAuthURL">https://api.instagram.com/oauth/authorize/</x:String>
+            <x:String x:Key="InstagramRedirectURL">https://www.instagram.com/</x:String>
+            <x:String x:Key="InstagramScope">basic</x:String>
+            <x:String x:Key="InstagramProfileInfoURL">https://api.instagram.com/v1/users/self/?access_token</x:String>
+
+            <!-- Twitter -->
+            <x:String x:Key="TwitterConsumerKey">OL9VF9ivqoxvgMiNYrNcq4DOW</x:String>
+            <x:String x:Key="TwitterConsumerSecret">v039sZkHHLnZrqlUmkpRzlSZ9RVB9wA5w8XX12p5c8DDEoNLkG</x:String>
+            <x:String x:Key="TwitterRequestTokenURL">https://api.twitter.com/oauth/request_token</x:String>
+            <x:String x:Key="TwitterAuthorizeURL">https://api.twitter.com/oauth/authorize</x:String>
+            <x:String x:Key="TwitterAccessTokenURL">https://api.twitter.com/oauth/access_token</x:String>
+            <x:String x:Key="Url">http://www.zulu-software.com</x:String>
+            <x:String x:Key="TwitterProfileInfoURL">https://api.twitter.com/1.1/account/verify_credentials.json</x:String>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
