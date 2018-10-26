@@ -48,6 +48,7 @@
             this.IsEnabled = true;
         }
         #endregion
+
         #region Commands
 
         public ICommand RegisterCommand { get { return new  RelayCommand(Register); } }
