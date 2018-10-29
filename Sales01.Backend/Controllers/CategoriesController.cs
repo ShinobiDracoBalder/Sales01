@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Sales01.Backend.Models;
-using Sales01.Domain.Models;
-
-namespace Sales01.Backend.Controllers
+﻿namespace Sales01.Backend.Controllers
 {
+    using System.Data.Entity;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
+
+    using Backend.Models;
+    using Domain.Models;
+    
     public class CategoriesController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
