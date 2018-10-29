@@ -374,5 +374,22 @@
         {
             get { return Resource.IngredientsError; }
         }
+
+        public static string Categories
+        {
+            get { return Resource.Categories; }
+        }
+        public static string Category
+        {
+            get { return Resource.Category; }
+        }
+        public static string CategoryPlaceholder
+        {
+            get { return Resource.CategoryPlaceholder; }
+        }
+        public static string CategoryError
+        {
+            get { return Resource.CategoryError; }
+        }
     }
 }

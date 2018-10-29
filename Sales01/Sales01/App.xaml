@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- Locator video 57  -->
+            <!-- Locator video 58  -->
             <infra:InstanceLocator x:Key="Locator"/>
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">http://192.168.0.3:8085/API/</x:String>

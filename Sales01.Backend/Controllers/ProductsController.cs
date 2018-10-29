@@ -22,7 +22,10 @@
         // GET: Products
         public async Task<ActionResult> Index()
         {
-            return View(await this.db.Products.OrderBy(p => p.BarCode).ToListAsync());
+            return View(await this.db.Products
+                .Include(p => p.User)
+                .Include(p => p.Category)
+                .OrderBy(p => p.BarCode).ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -43,7 +46,22 @@
         // GET: Products/Create
         public ActionResult Create()
         {
-            return View();
+            var user = db
+               .Users
+               .Where(u => u.UserName == User.Identity.Name)
+               .FirstOrDefault();
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var view = new ProductView {
+                UserId = user.UserId,
+            };
+
+            ViewBag.CategoryId = new SelectList(ComboHelper.GetCategories(), "CategoryId", "Description");
+            return View(view);
         }
 
         // POST: Products/Create
@@ -128,6 +146,8 @@
                 Remarks = view.Remarks,
                 IsAvailable = view.IsAvailable,
                 PublishOn = view.PublishOn,
+                UserId = view.UserId,
+                CategoryId = view.CategoryId,
             };
         }
 
@@ -144,7 +164,7 @@
                 return HttpNotFound();
             }
             var ViewProduct = this.ToProduct(product);
-
+            ViewBag.CategoryId = new SelectList(ComboHelper.GetCategories(), "CategoryId", "Description",product.CategoryId);
             return View(ViewProduct);
         }
 
@@ -162,6 +182,8 @@
                 ProductId = product.ProductId,
                 IsAvailable = product.IsAvailable,
                 PublishOn = product.PublishOn,
+                UserId = product.UserId,
+                CategoryId = product.CategoryId,
             };
         }
         // POST: Products/Edit/5
@@ -220,6 +242,7 @@
                     }
                 }
             }
+            ViewBag.CategoryId = new SelectList(ComboHelper.GetCategories(), "CategoryId", "Description", product.CategoryId);
             return View(view);
         }
 
@@ -237,6 +260,8 @@
                 ProductId = view.ProductId,
                 IsAvailable = view.IsAvailable,
                 PublishOn = view.PublishOn,
+                UserId = view.UserId,
+                CategoryId = view.CategoryId,
             };
         }
 

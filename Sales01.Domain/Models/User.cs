@@ -1,6 +1,7 @@
 ﻿namespace Sales01.Domain.Models
 {
     using Newtonsoft.Json;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -63,6 +64,8 @@
 
         [JsonIgnore]
         public virtual UserType UserType { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
 
         [NotMapped]
         public byte[] ImageArray { get; set; }
