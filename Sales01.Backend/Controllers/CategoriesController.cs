@@ -1,5 +1,6 @@
 ﻿namespace Sales01.Backend.Controllers
 {
+    using System;
     using System.Data.Entity;
     using System.Net;
     using System.Threading.Tasks;
@@ -7,7 +8,8 @@
 
     using Backend.Models;
     using Domain.Models;
-    
+    using Sales01.Backend.Helpers;
+
     public class CategoriesController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
@@ -44,16 +46,79 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CategoryId,Description,ImagePath")] Category category)
+        public async Task<ActionResult> Create(CategoryView view)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var category = this.ToCategories(view);
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    db.Categories.Add(category);
+                    try
+                    {
+                        await db.SaveChangesAsync();
+
+                        var pic = string.Empty;
+                        var folder = "~/Content/Categories";
+
+                        if (view.ImageFile != null)
+                        {
+                            pic = FilesHelper.UploadPhoto(view.ImageFile, folder, string.Format("{0}", category.Description), string.Format("{0}", category.CategoryId));
+
+                            category.ImageMimeType = view.ImageFile.ContentType;
+                            int length = view.ImageFile.ContentLength;
+                            byte[] buffer = new byte[length];
+                            view.ImageFile.InputStream.Read(buffer, 0, length);
+                            category.ImagenCategory = buffer;
+                        }
+
+                        if (!string.IsNullOrEmpty(pic))
+                        {
+                            category.ImagePath = pic;
+                            db.Entry(category).State = EntityState.Modified;
+                            await db.SaveChangesAsync();
+                        }
+
+                        transaction.Commit();
+
+                        return RedirectToAction("Index");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("_Index") &&
+                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                        {
+                            ModelState.AddModelError(string.Empty, "There are a record with the same value");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+
+                            string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                            message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                            ModelState.AddModelError(string.Empty, message);
+                        }
+                    }
+                }
             }
 
-            return View(category);
+            return View(view);
+        }
+
+        private Category ToCategories(CategoryView view)
+        {
+            return new Category {
+                Description = view.Description,
+                ImagePath = view.ImagePath,
+                ImageMimeType = view.ImageMimeType,
+                ImagenCategory = view.ImagenCategory,
+            };
         }
 
         // GET: Categories/Edit/5
@@ -68,7 +133,19 @@
             {
                 return HttpNotFound();
             }
-            return View(category);
+            var view = ToViewCategories(category);
+            return View(view);
+        }
+
+        private CategoryView ToViewCategories(Category category)
+        {
+            return new CategoryView {
+                Description= category.Description,
+                CategoryId = category.CategoryId,
+                ImageMimeType = category.ImageMimeType,
+                ImagenCategory = category.ImagenCategory,
+                ImagePath = category.ImagePath,
+            };
         }
 
         // POST: Categories/Edit/5
@@ -76,15 +153,68 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CategoryId,Description,ImagePath")] Category category)
+        public async Task<ActionResult> Edit(CategoryView view)
         {
+            var category = ToCategorys(view);
+
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+
+                    try
+                    {
+                        var pic = string.Empty;
+                        var folder = "~/Content/Categories";
+
+                        if (view.ImageFile != null)
+                        {
+                            pic = FilesHelper.UploadPhoto(view.ImageFile, folder, string.Format("{0}", category.Description), string.Format("{0}", category.CategoryId));
+
+                            category.ImageMimeType = view.ImageFile.ContentType;
+                            int length = view.ImageFile.ContentLength;
+                            byte[] buffer = new byte[length];
+                            view.ImageFile.InputStream.Read(buffer, 0, length);
+                            category.ImagenCategory = buffer;
+                        }
+
+                        db.Entry(category).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("_Index") &&
+                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                        {
+                            ModelState.AddModelError(string.Empty, "There are a record with the same value");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+
+                            string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                            message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                            message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                            ModelState.AddModelError(string.Empty, message);
+                        }
+                    }
+                }
             }
             return View(category);
+        }
+
+        private Category ToCategorys(CategoryView view)
+        {
+            return new Category {
+                Description = view.Description,
+                CategoryId = view.CategoryId,
+            };
         }
 
         // GET: Categories/Delete/5
@@ -99,7 +229,32 @@
             {
                 return HttpNotFound();
             }
-            return View(category);
+            try
+            {
+                db.Categories.Remove(category);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+
+                    string message = string.Format("<b>Message:</b> {0}<br /><br />", ex.Message);
+                    message += string.Format("<b>StackTrace:</b> {0}<br /><br />", ex.StackTrace.Replace(Environment.NewLine, string.Empty));
+                    message += string.Format("<b>Source:</b> {0}<br /><br />", ex.Source.Replace(Environment.NewLine, string.Empty));
+                    message += string.Format("<b>TargetSite:</b> {0}", ex.TargetSite.ToString().Replace(Environment.NewLine, string.Empty));
+                    ModelState.AddModelError(string.Empty, message);
+
+                }
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Categories/Delete/5

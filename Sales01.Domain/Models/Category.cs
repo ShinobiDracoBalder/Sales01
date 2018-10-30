@@ -14,6 +14,10 @@
         public string Description { get; set; }
         [Display(Name = "Image")]
         public string ImagePath { get; set; }
+        public string ImageMimeType { get; set; }
+
+        public byte[] ImagenCategory { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
         public string ImageFullPath

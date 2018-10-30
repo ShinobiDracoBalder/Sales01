@@ -242,7 +242,7 @@
                     }
                 }
             }
-            ViewBag.CategoryId = new SelectList(ComboHelper.GetCategories(), "CategoryId", "Description", product.CategoryId);
+            ViewBag.CategoryId = new SelectList(ComboHelper.GetCategories(), "CategoryId", "Description", view.CategoryId);
             return View(view);
         }
 

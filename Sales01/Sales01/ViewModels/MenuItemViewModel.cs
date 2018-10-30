@@ -26,6 +26,8 @@
 
         private void Goto()
         {
+            App.Master.IsPresented = false;
+
             if (this.PageName == "LoginPage")
             {
                 Settings.AccessToken = string.Empty;
