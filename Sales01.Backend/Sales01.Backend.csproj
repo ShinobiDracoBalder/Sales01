@@ -225,6 +225,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Categories\Arte Shinobi_3.jpg" />
+    <Content Include="Content\Categories\black-Star.png" />
+    <Content Include="Content\Categories\Boks_4.jpg" />
+    <Content Include="Content\Categories\Electronics_5.jpg" />
+    <Content Include="Content\Collection\BatmanNinja.jpg" />
+    <Content Include="Content\Collection\Bonsai.png" />
+    <Content Include="Content\Collection\LogoNinja.png" />
+    <Content Include="Content\Collection\LogoOrochi.png" />
+    <Content Include="Content\Collection\SanGouken.jpg" />
+    <Content Include="Content\Collection\ShinobiOrochi.png" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -552,7 +562,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Categories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
