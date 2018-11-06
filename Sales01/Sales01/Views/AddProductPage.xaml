@@ -89,33 +89,53 @@
                         Text="{i18n:Translate Remarks}"
                         VerticalOptions="Center">
                     </Label>
+                    <Label
+                         Grid.Column="0"
+                         Grid.Row="5"
+                         Text="{i18n:Translate Category}"
+                         VerticalOptions="Center">
+                    </Label>
+                    <Picker
+                         Grid.Column="1"
+                         Grid.Row="5"
+                         ItemDisplayBinding="{Binding Description}"
+                         ItemsSource="{Binding Categories}"
+                         SelectedItem="{Binding Category}"
+                         Title="{i18n:Translate CategoryPlaceholder}">
+                    </Picker>
+                    <Label
+                         Grid.Column="0"
+                         Grid.Row="6"
+                         Text="{i18n:Translate Remarks}"
+                         VerticalOptions="Center">
+                    </Label>
                     <Editor
                         Grid.Column="1"
-                        Grid.Row="4"
+                        Grid.Row="6"
                         Text="{Binding Remarks}"
                         VerticalOptions="FillAndExpand">
                     </Editor>
                     <Label
                         Grid.Column="0"
-                        Grid.Row="5"
+                        Grid.Row="7"
                         Text="{i18n:Translate Characteristics}"
                         VerticalOptions="Center">
                     </Label>
                     <Editor
                         Grid.Column="1"
-                        Grid.Row="5"
+                        Grid.Row="7"
                         Text="{Binding Characteristics}"
                         VerticalOptions="FillAndExpand">
                     </Editor>
                     <Label
                         Grid.Column="0"
-                        Grid.Row="6"
+                        Grid.Row="8"
                         Text="{i18n:Translate Ingredients}"
                         VerticalOptions="Center">
                     </Label>
                     <Editor
                         Grid.Column="1"
-                        Grid.Row="6"
+                        Grid.Row="8"
                         Text="{Binding Ingredients}"
                         VerticalOptions="FillAndExpand">
                     </Editor>
