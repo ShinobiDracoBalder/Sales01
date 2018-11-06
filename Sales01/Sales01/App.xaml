@@ -7,13 +7,14 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- Locator video 59  -->
+            <!-- Locator video 61  -->
             <infra:InstanceLocator x:Key="Locator"/>
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">http://192.168.0.3:8085/API/</x:String>
             <x:String x:Key="UrlPrefix">api</x:String>
             <x:String x:Key="UrlProductsController">/Products</x:String>
             <x:String x:Key="UrlUsersController">/Users</x:String>
+            <x:String x:Key="UrlCategoriesController">/Categories</x:String>
             <!-- Colors Sales -->
             <Color x:Key="MainColor">#38401A</Color>
             <Color x:Key="FontColor">#261B14</Color>
