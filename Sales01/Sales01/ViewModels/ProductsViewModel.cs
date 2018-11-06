@@ -25,6 +25,8 @@
         #endregion
 
         #region Properties
+        public Category Category { get; set; }
+
         public string Filter
         {
             get { return this.filter; }
@@ -50,9 +52,11 @@
         #endregion
 
         #region Constructors
-        public ProductsViewModel()
+ 
+        public ProductsViewModel(Category category)
         {
             instance = this;
+            this.Category = category;
             this.apiService = new ApiService();
             this.dataService = new DataService();
             this.LoadProducts();
@@ -61,14 +65,10 @@
 
         #region Singleton
         private static ProductsViewModel instance;
+       
 
         public static ProductsViewModel GetInstance()
         {
-            if (instance == null)
-            {
-                return new ProductsViewModel();
-            }
-
             return instance;
         }
         #endregion
@@ -114,34 +114,52 @@
         private async void LoadProducts()
         {
             this.IsRefreshing = true;
-
             var connection = await this.apiService.CheckConnection();
-            if (connection.IsSuccess)
-            {
-                var answer = await this.LoadProductsFromAPI();
-
-                if (answer)
-                {
-                    this.SaveProductsToDB();
-                }
-                else
-                {
-                    await this.LoadProductsFromAPI();
-                }
-            }
-
-            if (this.MyProducts == null || this.MyProducts.Count ==0)
+            if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.NoProductsMessage, Languages.Accept);
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message,
+               Languages.Accept);
                 return;
-
             }
-
-            this.RefreshList();
-           
+            var answer = await this.LoadProductsFromAPI();
+            if (answer)
+            {
+                this.RefreshList();
+            }
             this.IsRefreshing = false;
         }
+        //private async void LoadProducts()
+        //{
+        //    this.IsRefreshing = true;
+
+        //    var connection = await this.apiService.CheckConnection();
+        //    if (connection.IsSuccess)
+        //    {
+        //        var answer = await this.LoadProductsFromAPI();
+
+        //        if (answer)
+        //        {
+        //            this.SaveProductsToDB();
+        //        }
+        //        else
+        //        {
+        //            await this.LoadProductsFromAPI();
+        //        }
+        //    }
+
+        //    if (this.MyProducts == null || this.MyProducts.Count ==0)
+        //    {
+        //        this.IsRefreshing = false;
+        //        await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.NoProductsMessage, Languages.Accept);
+        //        return;
+
+        //    }
+
+        //    this.RefreshList();
+
+        //    this.IsRefreshing = false;
+        //}
         private async Task LoadProductsFromDB()
         {
             this.MyProducts = await this.dataService.GetAllProducts();
@@ -152,22 +170,37 @@
             await this.dataService.DeleteAllProducts();
             this.dataService.Insert(this.MyProducts);
         }
+
         private async Task<bool> LoadProductsFromAPI()
         {
             var url = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlProductsController"].ToString();
-
-            var response = await this.apiService.GetList<ProductRequest>(url, prefix, controller, Settings.TokenType, Settings.AccessToken);
+            var response = await this.apiService.GetList<ProductRequest>(url, prefix, controller,
+           this.Category.CategoryId, Settings.TokenType, Settings.AccessToken);
             if (!response.IsSuccess)
             {
                 return false;
             }
-
             this.MyProducts = (List<ProductRequest>)response.Result;
-
             return true;
         }
+        //private async Task<bool> LoadProductsFromAPI()
+        //{
+        //    var url = Application.Current.Resources["UrlAPI"].ToString();
+        //    var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+        //    var controller = Application.Current.Resources["UrlProductsController"].ToString();
+
+        //    var response = await this.apiService.GetList<ProductRequest>(url, prefix, controller, Settings.TokenType, Settings.AccessToken);
+        //    if (!response.IsSuccess)
+        //    {
+        //        return false;
+        //    }
+
+        //    this.MyProducts = (List<ProductRequest>)response.Result;
+
+        //    return true;
+        //}
 
         #endregion
 

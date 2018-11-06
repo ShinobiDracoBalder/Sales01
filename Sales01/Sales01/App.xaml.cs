@@ -75,7 +75,7 @@ namespace Sales01
                 Settings.UserASP = JsonConvert.SerializeObject(userASP);
             }
 
-            MainViewModel.GetInstance().Products = new ProductsViewModel();
+            MainViewModel.GetInstance().Categories = new CategoriesViewModel();
             Application.Current.MainPage = new MasterPage();
         }
 
