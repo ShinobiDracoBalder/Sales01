@@ -26,8 +26,6 @@
 
         private async void Goto()
         {
-            App.Master.IsPresented = false;
-
             if (this.PageName == "LoginPage")
             {
                 Settings.AccessToken = string.Empty;
@@ -38,7 +36,8 @@
             }
             else if (this.PageName== "AboutPage")
             {
-               await App.Navigator.PushAsync(new MapPage());
+                App.Master.IsPresented = false;
+                await App.Navigator.PushAsync(new MapPage());
             }
         }
         #endregion
