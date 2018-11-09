@@ -12,6 +12,8 @@
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Plugin.Geolocator.Abstractions;
+    using Plugin.Geolocator;
 
     public class AddProductViewModel : BaseViewModel
     {
@@ -294,6 +296,8 @@
                 imageArray = FilesHelper.ReadFully(this.file.GetStream());
             }
 
+            var location = await this.GetLocation();
+
             var product = new ProductRequest
             {
                 Description = this.Description,
@@ -306,6 +310,8 @@
                 Ingredients = this.Ingredients,
                 CategoryId = this.Category.CategoryId,
                 UserId = int.Parse(MainViewModel.GetInstance().UserASP.Id),
+                Latitude = location == null ? 0 : location.Latitude,
+                Longitude = location == null ? 0 : location.Longitude,
             };
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -332,6 +338,13 @@
             this.IsRunning = false;
             this.IsEnabled = true;
             await App.Navigator.PopAsync();
+        }
+        private async Task<Position> GetLocation()
+        {
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 20;
+            var location = await locator.GetPositionAsync();
+            return location;
         }
         #endregion
     }
