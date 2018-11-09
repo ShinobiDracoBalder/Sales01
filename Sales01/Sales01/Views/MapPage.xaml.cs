@@ -25,9 +25,20 @@
             var locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
             var location = await locator.GetPositionAsync();
+          
             var position = new Position(location.Latitude, location.Longitude);
-            this.MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(1)));
+            this.MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(position,
+           Distance.FromKilometers(1)));
+            try
+            {
+                this.MyMap.IsShowingUser = true;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
+    
         private void Handle_ValueChanged(object sender, Xamarin.Forms.ValueChangedEventArgs e)
         {
             var zoomLevel = double.Parse(e.NewValue.ToString()) * 18.0;
